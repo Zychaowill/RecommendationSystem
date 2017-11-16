@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.jangz.recommendation</groupId>
+	<artifactId>recommendation-parent</artifactId>
+	<version>1.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>RecommendationSystem</name>
+	
+	<repositories>
+		<repository>
+			<id>nexus-aliyun</id>
+			<name>Nexus aliyun</name>
+			<url>https://maven.aliyun.com/nexus/content/groups/public</url>
+		</repository>
+	</repositories>
+	
+	<properties>
+		<java.version>1.8</java.version>
+		<spark.version>2.1.0</spark.version>
+	</properties>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-complier-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<encoding>UTF-8</encoding>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<showWarning>true</showWarning>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<modules>
+		<module>recommendation-analysis</module>
+	</modules>
+</project>
