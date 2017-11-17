@@ -3,6 +3,7 @@ package com.jangz.recommendation.spark.core
 import com.jangz.recommendation.config.Config
 import com.jangz.recommendation.util.SparkUtil
 import com.jangz.recommendation.entity.Dimension
+import com.jangz.recommendation.dao.DimensionDao
 
 object FlowAnalysis {
 
@@ -47,11 +48,32 @@ object FlowAnalysis {
      */
     val reduceTime = mapTime.groupByKey().map(m => {
       val list: List[Long] = m._2.toList.sorted
-      val time: Long = 10L
+      var time: Long = 10L
       if (list.size > 1) {
-        
+        var cachets: Long = 0
+        list.foreach(ts => {
+          if (cachets != 0) {
+            val sub: Long = ts - cachets
+            if (sub >= 1800) {
+              time += 10
+            } else {
+              time += sub
+            }
+          }
+          cachets = ts
+        })
       }
-    })
+      (time)
+    }).reduce(_ + _)
+    
+    sc.stop()
+    reduce.time = reduceTime
+    reduce.day = Config.day
+    
+    /**
+     * save into DB
+     */
+    DimensionDao.saveDimensionData(reduce)
   }
 
   def main(args: Array[String]): Unit = {
