@@ -1,6 +1,11 @@
 package com.jangz.recommendation.util
 
 import com.jangz.recommendation.config.Config
+import com.jangz.recommendation.spark.core.FlowAnalysis
+import com.jangz.recommendation.spark.core.SearchAnalysis
+import com.jangz.recommendation.spark.core.ProvinceAnalysis
+import com.jangz.recommendation.spark.core.CountryAnalysis
+import com.jangz.recommendation.spark.core.ContentAnalysis
 
 object AllAnalysis {
   
@@ -10,6 +15,14 @@ object AllAnalysis {
     days.foreach(day => {
       Config.setDay(day)
       println(s"Run All Analysis for $day")
+      
+      FlowAnalysis.runAnalysis()
+      SearchAnalysis.runAnalysis()
+      ProvinceAnalysis.runAnalysis()
+      CountryAnalysis.runAnalysis()
+      ContentAnalysis.runAnalysis()
+      
+      // need to train model before run the following analysis
       
       
     })
