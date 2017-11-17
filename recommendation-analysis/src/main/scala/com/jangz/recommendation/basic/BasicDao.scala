@@ -1,4 +1,4 @@
-package com.jangz.recommendation.base
+package com.jangz.recommendation.basic
 
 import java.sql.{ Connection, PreparedStatement, ResultSet, ResultSetMetaData }
 import scala.collection.mutable.ListBuffer

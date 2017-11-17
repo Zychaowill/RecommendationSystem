@@ -1,4 +1,4 @@
-package com.jangz.recommendation.base
+package com.jangz.recommendation.basic
 
 import com.jangz.recommendation.util.db.DBHelper
 import java.sql.Connection

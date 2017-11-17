@@ -1,7 +1,8 @@
 package com.jangz.recommendation.dao
 
-import com.jangz.recommendation.base.BasicSimpleDao
 import scala.collection.mutable.ListBuffer
+
+import com.jangz.recommendation.basic.BasicSimpleDao
 import com.jangz.recommendation.entity.Dimension
 
 object DimensionDao {

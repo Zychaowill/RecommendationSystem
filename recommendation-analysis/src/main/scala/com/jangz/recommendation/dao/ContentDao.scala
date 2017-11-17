@@ -1,8 +1,9 @@
 package com.jangz.recommendation.dao
 
-import com.jangz.recommendation.base.BasicDao
-import com.jangz.recommendation.entity.Content
 import java.sql.Connection
+
+import com.jangz.recommendation.basic.BasicDao
+import com.jangz.recommendation.entity.Content
 
 object ContentDao {
   
