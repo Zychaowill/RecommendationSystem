@@ -33,12 +33,6 @@ object BasicDao {
     }
   }
 
-  /**
-   * @param sql
-   * @param cls
-   * @param conn
-   * @return
-   */
   def getSqlList(sql: String, cls: Class[_], conn: Connection): ListBuffer[Any] = {
     var pstmt: PreparedStatement = null
     var rs: ResultSet = null
@@ -52,29 +46,14 @@ object BasicDao {
     }
   }
 
-  /**
-   * @param sql
-   * @param entity
-   * @param conn
-   */
   def saveObject(sql: String, entity: Any, conn: Connection): Int = {
     executeSql(sql, entity, conn)
   }
 
-  /**
-   * @param sql
-   * @param entities
-   * @param conn
-   */
   def saveList(sql: String, entities: List[Any], conn: Connection): Int = {
     entities.map(saveObject(sql, _, conn)).sum
   }
 
-  /**
-   * @param sql
-   * @param entities
-   * @param conn
-   */
   def saveListBatch(sql: String, entities: List[Any], conn: Connection): Int = {
     DBHelper.setAutoCommit(conn, false)
     var pstmt: PreparedStatement = null
@@ -96,39 +75,18 @@ object BasicDao {
     }
   }
 
-  /**
-   * @param sql
-   * @param entity
-   * @param conn
-   */
   def deleteObject(sql: String, entity: Any, conn: Connection): Int = {
     executeSql(sql, entity, conn)
   }
 
-  /**
-   * @param sql
-   * @param entity
-   * @param conn
-   */
   def updateObject(sql: String, entity: Any, conn: Connection): Int = {
     executeSql(sql, entity, conn)
   }
 
-  /**
-   * @param sql
-   * @param entities
-   * @param conn
-   */
   def updateList(sql: String, entities: List[Any], conn: Connection): Int = {
     entities.map(updateObject(sql, _, conn)).sum
   }
 
-  /**
-   * @param rs
-   * @param cls
-   * @return
-   * @throws NoSuchFieldException
-   */
   def getRsListFromMetaData(rs: ResultSet, cls: Class[_]): ListBuffer[Any] = {
     val list: ListBuffer[Any] = ListBuffer[Any]()
     // MetaData
@@ -162,11 +120,6 @@ object BasicDao {
     list
   }
 
-  /**
-   * @param sql
-   * @param pstmt
-   * @param entity
-   */
   def setPreparedSql(sql: String, pstmt: PreparedStatement, entity: Any): Unit = {
     if (sql.contains("#")) {
       val cls: Class[_] = entity.getClass()
@@ -185,18 +138,10 @@ object BasicDao {
     }
   }
 
-  /**
-   * @param sql
-   */
   def getRealSql(sql: String): String = {
     sql.replaceAll("\\#\\{ *[a-z,A-Z,0-9,_]+ *\\}", "\\?")
   }
 
-  /**
-   * @param sql
-   * @param entity
-   * @param conn
-   */
   def executeSql(sql: String, entity: Any, conn: Connection): Int = {
     var pstmt: PreparedStatement = null
     try {

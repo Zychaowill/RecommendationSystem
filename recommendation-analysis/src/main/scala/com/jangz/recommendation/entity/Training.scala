@@ -15,7 +15,7 @@ class Training extends Serializable {
   @BeanProperty var ip: Int = 0
   
   var uvs = Set[String]()
-  var pvs = Set[String]()
+  var ips = Set[String]()
   
   def this(pv: Int, uv: Int, ip: Int) {
     this()

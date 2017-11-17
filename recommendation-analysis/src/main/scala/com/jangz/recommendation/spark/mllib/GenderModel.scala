@@ -8,36 +8,38 @@ import com.jangz.recommendation.util.FileUtil
 import com.jangz.recommendation.entity.Training
 import org.apache.spark.mllib.feature.HashingTF
 import org.apache.spark.mllib.regression.LabeledPoint
-import org.apache.spark.mllib.classification.NaiveBayes
+import org.apache.spark.mllib.classification.SVMWithSGD
 
 /**
- * Bias classification algorithm
+ * support vector product algorithm
  */
-object ChannelModel {
+object GenderModel {
   
   def main(args: Array[String]): Unit = {
     val sc = SparkUtil.getSparkContext(this.getClass)
     
-    val modelPath = new Path(BaseModelUtil.modelPath("bayes"))
+    val modelPath = new Path(BaseModelUtil.modelPath("svm"))
     val fs: FileSystem = FileSystem.get(modelPath.toUri, sc.hadoopConfiguration)
     if (fs.exists(modelPath)) {
       fs.delete(modelPath, true)
     }
     
-    val list: ListBuffer[Training] = FileUtil.getTrainingList("data/ml/channel.txt")
+    val list: ListBuffer[Training] = FileUtil.getTrainingList("data/ml/gender.txt")
     val arr = FileUtil.getTrainingArrayBuffer(list)
     
     val data = sc.parallelize(arr)
     val tf = new HashingTF(numFeatures = 10000)
-    var parsedData = data.map(line => {
-      var parts = line.split(',')
+    val parsedData = data.map(line => {
+      val parts = line.split(',')
       LabeledPoint(parts(0).toDouble, tf.transform(parts(1).split(" ")))
     }).cache()
     
-    val model = NaiveBayes.train(parsedData, lambda = 1.0, modelType = "multinomial")
+    val model = SVMWithSGD.train(parsedData, 100)
     
-    // save type
-    model.save(sc, BaseModelUtil.modelPath("bayes"))
+    /**
+     * save model
+     */
+    model.save(sc, BaseModelUtil.modelPath("svm"))
     
     sc.stop
   }
